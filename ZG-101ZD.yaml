@@ -2,8 +2,8 @@ blueprint:
   name: MOES ZG-101ZD (Zigbee2MQTT) — rotary knob general blueprint
   description: >
     Blueprint to handle MOES ZG-101ZD smart knob events from Zigbee2MQTT.
-    This blueprint listens to MQTT messages from the configured topic and
-    reacts to the "action" value in the JSON payload.
+    This blueprint listens for MQTT messages from the configured topic
+    and triggers actions based on the "action" value in the JSON payload.
   domain: automation
 
   input:
@@ -15,63 +15,63 @@ blueprint:
 
     rotate_right_action:
       name: Rotate right
-      description: Action when rotating right.
+      description: Action to run when rotating right.
       default: []
       selector:
         action: {}
 
     rotate_left_action:
       name: Rotate left
-      description: Action when rotating left.
+      description: Action to run when rotating left.
       default: []
       selector:
         action: {}
 
     single_press_action:
       name: Single press
-      description: Action when single pressed.
+      description: Action to run when single pressed.
       default: []
       selector:
         action: {}
 
     double_press_action:
       name: Double press
-      description: Action when double pressed.
+      description: Action to run when double pressed.
       default: []
       selector:
         action: {}
 
     hold_action:
       name: Hold
-      description: Action when held.
+      description: Action to run when the button is held.
       default: []
       selector:
         action: {}
 
     brightness_step_up_action:
       name: Brightness step up
-      description: Action when brightness_step_up event occurs.
+      description: Action for brightness_step_up event.
       default: []
       selector:
         action: {}
 
     brightness_step_down_action:
       name: Brightness step down
-      description: Action when brightness_step_down event occurs.
+      description: Action for brightness_step_down event.
       default: []
       selector:
         action: {}
 
     color_temp_up_action:
       name: Color temperature step up
-      description: Action when color_temperature_step_up event occurs.
+      description: Action for color_temperature_step_up event.
       default: []
       selector:
         action: {}
 
     color_temp_down_action:
       name: Color temperature step down
-      description: Action when color_temperature_step_down event occurs.
+      description: Action for color_temperature_step_down event.
       default: []
       selector:
         action: {}
@@ -168,4 +168,5 @@ action:
           - condition: trigger
             id: color_temp_down
         sequence: !input color_temp_down_action
+
     default: []
