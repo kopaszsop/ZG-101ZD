@@ -170,3 +170,4 @@ action:
         sequence: !input color_temp_down_action
 
     default: []
+
