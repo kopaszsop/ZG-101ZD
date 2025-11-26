@@ -1,77 +1,76 @@
 blueprint:
-  name: MOES ZG-101ZD (Zigbee2MQTT) — rotary knob general blueprint
+  name: MOES ZG-101ZD (Zigbee2MQTT) — rotary knob
   description: >
-    Blueprint to handle MOES ZG-101ZD smart knob events from Zigbee2MQTT.
-    This blueprint listens for MQTT messages from the configured topic
-    and triggers actions based on the "action" value in the JSON payload.
+    Handle MOES ZG-101ZD knob events from Zigbee2MQTT.
+    Each action is empty by default and can be configured in the UI.
   domain: automation
 
 input:
   mqtt_topic:
     name: MQTT topic (state)
-    description: MQTT topic where the knob publishes events. Example zigbee2mqtt/knob1
+    description: MQTT topic where the knob publishes events, e.g., zigbee2mqtt/knob1
     selector:
       text: {}
 
-  rotate_right_action:
+  rotate_right:
     name: Rotate right
-    description: Action to run when rotating right.
+    description: Action to run when rotating right
     default: []
     selector:
       action: {}
 
-  rotate_left_action:
+  rotate_left:
     name: Rotate left
-    description: Action to run when rotating left.
+    description: Action to run when rotating left
     default: []
     selector:
       action: {}
 
-  single_press_action:
+  single_press:
     name: Single press
-    description: Action to run when single pressed.
+    description: Action to run when single pressed
     default: []
     selector:
       action: {}
 
-  double_press_action:
+  double_press:
     name: Double press
-    description: Action to run when double pressed.
+    description: Action to run when double pressed
     default: []
     selector:
       action: {}
 
-  hold_action:
+  hold:
     name: Hold
-    description: Action to run when the button is held.
+    description: Action to run when button is held
     default: []
     selector:
       action: {}
 
-  brightness_step_up_action:
+  brightness_step_up:
     name: Brightness step up
-    description: Action for brightness_step_up event.
+    description: Action to run when brightness step up
     default: []
     selector:
       action: {}
 
-  brightness_step_down_action:
+  brightness_step_down:
     name: Brightness step down
-    description: Action for brightness_step_down event.
+    description: Action to run when brightness step down
     default: []
     selector:
       action: {}
 
-  color_temp_up_action:
+  color_temp_up:
     name: Color temperature step up
-    description: Action for color_temperature_step_up event.
+    description: Action to run when color temp step up
     default: []
     selector:
       action: {}
 
-  color_temp_down_action:
+  color_temp_down:
     name: Color temperature step down
-    description: Action for color_temperature_step_down event.
+    description: Action to run when color temp step down
     default: []
     selector:
       action: {}
@@ -81,42 +80,34 @@ trigger:
     topic: !input mqtt_topic
     id: rotate_right
     value_template: "{{ value_json.action == 'rotate_right' }}"
-
   - platform: mqtt
     topic: !input mqtt_topic
     id: rotate_left
     value_template: "{{ value_json.action == 'rotate_left' }}"
-
   - platform: mqtt
     topic: !input mqtt_topic
-    id: single
+    id: single_press
     value_template: "{{ value_json.action == 'single' }}"
-
   - platform: mqtt
     topic: !input mqtt_topic
-    id: double
+    id: double_press
     value_template: "{{ value_json.action == 'double' }}"
-
   - platform: mqtt
     topic: !input mqtt_topic
     id: hold
     value_template: "{{ value_json.action == 'hold' }}"
-
   - platform: mqtt
     topic: !input mqtt_topic
     id: brightness_step_up
     value_template: "{{ value_json.action == 'brightness_step_up' }}"
-
   - platform: mqtt
     topic: !input mqtt_topic
     id: brightness_step_down
     value_template: "{{ value_json.action == 'brightness_step_down' }}"
-
   - platform: mqtt
     topic: !input mqtt_topic
     id: color_temp_up
     value_template: "{{ value_json.action == 'color_temperature_step_up' }}"
-
   - platform: mqtt
     topic: !input mqtt_topic
     id: color_temp_down
@@ -127,47 +118,39 @@ action:
       - conditions:
           - condition: trigger
             id: rotate_right
-        sequence: !input rotate_right_action
-
+        sequence: !input rotate_right
       - conditions:
           - condition: trigger
             id: rotate_left
-        sequence: !input rotate_left_action
-
+        sequence: !input rotate_left
       - conditions:
           - condition: trigger
-            id: single
-        sequence: !input single_press_action
-
+            id: single_press
+        sequence: !input single_press
       - conditions:
           - condition: trigger
-            id: double
-        sequence: !input double_press_action
-
+            id: double_press
+        sequence: !input double_press
       - conditions:
           - condition: trigger
             id: hold
-        sequence: !input hold_action
-
+        sequence: !input hold
       - conditions:
           - condition: trigger
             id: brightness_step_up
-        sequence: !input brightness_step_up_action
-
+        sequence: !input brightness_step_up
       - conditions:
           - condition: trigger
             id: brightness_step_down
-        sequence: !input brightness_step_down_action
-
+        sequence: !input brightness_step_down
       - conditions:
           - condition: trigger
             id: color_temp_up
-        sequence: !input color_temp_up_action
-
+        sequence: !input color_temp_up
       - conditions:
           - condition: trigger
             id: color_temp_down
-        sequence: !input color_temp_down_action
-
+        sequence: !input color_temp_down
     default: []
 
+mode: restart
