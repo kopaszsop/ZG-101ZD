@@ -1,0 +1,172 @@
+blueprint:
+  name: MOES ZG-101ZD (Zigbee2MQTT) — rotary knob general blueprint
+  description: >
+    Blueprint to handle MOES ZG-101ZD smart knob events from Zigbee2MQTT.
+    This blueprint listens for MQTT messages from the configured topic
+    and triggers actions based on the "action" value in the JSON payload.
+  domain: automation
+
+input:
+  mqtt_topic:
+    name: MQTT topic (state)
+    description: MQTT topic where the knob publishes events. Example zigbee2mqtt/knob1
+    selector:
+      text: {}
+
+  rotate_right_action:
+    name: Rotate right
+    description: Action to run when rotating right.
+    default: []
+    selector:
+      action: {}
+
+  rotate_left_action:
+    name: Rotate left
+    description: Action to run when rotating left.
+    default: []
+    selector:
+      action: {}
+
+  single_press_action:
+    name: Single press
+    description: Action to run when single pressed.
+    default: []
+    selector:
+      action: {}
+
+  double_press_action:
+    name: Double press
+    description: Action to run when double pressed.
+    default: []
+    selector:
+      action: {}
+
+  hold_action:
+    name: Hold
+    description: Action to run when the button is held.
+    default: []
+    selector:
+      action: {}
+
+  brightness_step_up_action:
+    name: Brightness step up
+    description: Action for brightness_step_up event.
+    default: []
+    selector:
+      action: {}
+
+  brightness_step_down_action:
+    name: Brightness step down
+    description: Action for brightness_step_down event.
+    default: []
+    selector:
+      action: {}
+
+  color_temp_up_action:
+    name: Color temperature step up
+    description: Action for color_temperature_step_up event.
+    default: []
+    selector:
+      action: {}
+
+  color_temp_down_action:
+    name: Color temperature step down
+    description: Action for color_temperature_step_down event.
+    default: []
+    selector:
+      action: {}
+
+trigger:
+  - platform: mqtt
+    topic: !input mqtt_topic
+    id: rotate_right
+    value_template: "{{ value_json.action == 'rotate_right' }}"
+
+  - platform: mqtt
+    topic: !input mqtt_topic
+    id: rotate_left
+    value_template: "{{ value_json.action == 'rotate_left' }}"
+
+  - platform: mqtt
+    topic: !input mqtt_topic
+    id: single
+    value_template: "{{ value_json.action == 'single' }}"
+
+  - platform: mqtt
+    topic: !input mqtt_topic
+    id: double
+    value_template: "{{ value_json.action == 'double' }}"
+
+  - platform: mqtt
+    topic: !input mqtt_topic
+    id: hold
+    value_template: "{{ value_json.action == 'hold' }}"
+
+  - platform: mqtt
+    topic: !input mqtt_topic
+    id: brightness_step_up
+    value_template: "{{ value_json.action == 'brightness_step_up' }}"
+
+  - platform: mqtt
+    topic: !input mqtt_topic
+    id: brightness_step_down
+    value_template: "{{ value_json.action == 'brightness_step_down' }}"
+
+  - platform: mqtt
+    topic: !input mqtt_topic
+    id: color_temp_up
+    value_template: "{{ value_json.action == 'color_temperature_step_up' }}"
+
+  - platform: mqtt
+    topic: !input mqtt_topic
+    id: color_temp_down
+    value_template: "{{ value_json.action == 'color_temperature_step_down' }}"
+
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: rotate_right
+        sequence: !input rotate_right_action
+
+      - conditions:
+          - condition: trigger
+            id: rotate_left
+        sequence: !input rotate_left_action
+
+      - conditions:
+          - condition: trigger
+            id: single
+        sequence: !input single_press_action
+
+      - conditions:
+          - condition: trigger
+            id: double
+        sequence: !input double_press_action
+
+      - conditions:
+          - condition: trigger
+            id: hold
+        sequence: !input hold_action
+
+      - conditions:
+          - condition: trigger
+            id: brightness_step_up
+        sequence: !input brightness_step_up_action
+
+      - conditions:
+          - condition: trigger
+            id: brightness_step_down
+        sequence: !input brightness_step_down_action
+
+      - conditions:
+          - condition: trigger
+            id: color_temp_up
+        sequence: !input color_temp_up_action
+
+      - conditions:
+          - condition: trigger
+            id: color_temp_down
+        sequence: !input color_temp_down_action
+
+    default: []
